@@ -6,10 +6,11 @@ export const commodities = [
   "Gram"
 ];
 
-export const mandis = [
+const mandiRecords = [
   {
     id: 1,
     name: "Kota Mandi",
+    state: "Rajasthan",
     district: "Kota",
     commodity: "Wheat",
     minPrice: 2250,
@@ -22,6 +23,7 @@ export const mandis = [
   {
     id: 2,
     name: "Jaipur Mandi",
+    state: "Rajasthan",
     district: "Jaipur",
     commodity: "Wheat",
     minPrice: 2300,
@@ -34,6 +36,7 @@ export const mandis = [
   {
     id: 3,
     name: "Ajmer Mandi",
+    state: "Rajasthan",
     district: "Ajmer",
     commodity: "Wheat",
     minPrice: 2350,
@@ -46,6 +49,7 @@ export const mandis = [
   {
     id: 4,
     name: "Alwar Mandi",
+    state: "Rajasthan",
     district: "Alwar",
     commodity: "Wheat",
     minPrice: 2200,
@@ -58,6 +62,7 @@ export const mandis = [
   {
     id: 5,
     name: "Kota Mandi",
+    state: "Rajasthan",
     district: "Kota",
     commodity: "Mustard",
     minPrice: 5400,
@@ -70,6 +75,7 @@ export const mandis = [
   {
     id: 6,
     name: "Jaipur Mandi",
+    state: "Rajasthan",
     district: "Jaipur",
     commodity: "Mustard",
     minPrice: 5500,
@@ -82,6 +88,7 @@ export const mandis = [
   {
     id: 7,
     name: "Ajmer Mandi",
+    state: "Rajasthan",
     district: "Ajmer",
     commodity: "Mustard",
     minPrice: 5550,
@@ -94,6 +101,7 @@ export const mandis = [
   {
     id: 8,
     name: "Alwar Mandi",
+    state: "Rajasthan",
     district: "Alwar",
     commodity: "Mustard",
     minPrice: 5350,
@@ -102,8 +110,197 @@ export const mandis = [
     transport: 300,
     loadingPerQtl: 10,
     commissionRate: 1
+  },
+  {
+    id: 9,
+    name: "Chandigarh Grain Market",
+    state: "Punjab",
+    district: "Chandigarh",
+    commodity: "Wheat",
+    minPrice: 2350,
+    maxPrice: 2700,
+    modalPrice: 2580,
+    transport: 180,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 10,
+    name: "Khanna Mandi",
+    state: "Punjab",
+    district: "Ludhiana",
+    commodity: "Wheat",
+    minPrice: 2380,
+    maxPrice: 2740,
+    modalPrice: 2620,
+    transport: 420,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 11,
+    name: "Amritsar Mandi",
+    state: "Punjab",
+    district: "Amritsar",
+    commodity: "Wheat",
+    minPrice: 2320,
+    maxPrice: 2680,
+    modalPrice: 2560,
+    transport: 560,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 12,
+    name: "Chandigarh Grain Market",
+    state: "Punjab",
+    district: "Chandigarh",
+    commodity: "Mustard",
+    minPrice: 5480,
+    maxPrice: 6030,
+    modalPrice: 5800,
+    transport: 180,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 13,
+    name: "Karnal Mandi",
+    state: "Haryana",
+    district: "Karnal",
+    commodity: "Wheat",
+    minPrice: 2400,
+    maxPrice: 2760,
+    modalPrice: 2650,
+    transport: 500,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 14,
+    name: "Gurugram Mandi",
+    state: "Haryana",
+    district: "Gurugram",
+    commodity: "Mustard",
+    minPrice: 5550,
+    maxPrice: 6150,
+    modalPrice: 5920,
+    transport: 760,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 15,
+    name: "Indore Mandi",
+    state: "Madhya Pradesh",
+    district: "Indore",
+    commodity: "Soybean",
+    minPrice: 4300,
+    maxPrice: 4850,
+    modalPrice: 4620,
+    transport: 650,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 16,
+    name: "Dewas Mandi",
+    state: "Madhya Pradesh",
+    district: "Dewas",
+    commodity: "Soybean",
+    minPrice: 4380,
+    maxPrice: 4900,
+    modalPrice: 4680,
+    transport: 520,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 17,
+    name: "Bhopal Mandi",
+    state: "Madhya Pradesh",
+    district: "Bhopal",
+    commodity: "Gram",
+    minPrice: 5600,
+    maxPrice: 6300,
+    modalPrice: 6000,
+    transport: 710,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 18,
+    name: "Lasalgaon Mandi",
+    state: "Maharashtra",
+    district: "Nashik",
+    commodity: "Bajra",
+    minPrice: 2100,
+    maxPrice: 2450,
+    modalPrice: 2280,
+    transport: 900,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 19,
+    name: "Akola Mandi",
+    state: "Maharashtra",
+    district: "Akola",
+    commodity: "Soybean",
+    minPrice: 4250,
+    maxPrice: 4800,
+    modalPrice: 4550,
+    transport: 820,
+    loadingPerQtl: 10,
+    commissionRate: 1
+  },
+  {
+    id: 20,
+    name: "Latur Mandi",
+    state: "Maharashtra",
+    district: "Latur",
+    commodity: "Gram",
+    minPrice: 5650,
+    maxPrice: 6250,
+    modalPrice: 5980,
+    transport: 940,
+    loadingPerQtl: 10,
+    commissionRate: 1
   }
 ];
+
+const demoCapacity = {
+  1: [1200, 760],
+  2: [1800, 1620],
+  3: [950, 510],
+  4: [700, 680],
+  5: [900, 420],
+  6: [1400, 1260],
+  7: [800, 370],
+  8: [650, 540],
+  9: [1500, 900],
+  10: [2200, 2040],
+  11: [1100, 460],
+  12: [1000, 620],
+  13: [1900, 1250],
+  14: [1200, 1180],
+  15: [1600, 700],
+  16: [1300, 980],
+  17: [1000, 350],
+  18: [900, 680],
+  19: [1400, 920],
+  20: [850, 500],
+}
+
+export const mandis = mandiRecords.map((item) => {
+  const [storageCapacity, committedQuantity] = demoCapacity[item.id] || []
+  return {
+    ...item,
+    storageCapacity,
+    committedQuantity,
+    capacitySource: 'DEMO DATA',
+  }
+})
 
 export const trades = [
   {
