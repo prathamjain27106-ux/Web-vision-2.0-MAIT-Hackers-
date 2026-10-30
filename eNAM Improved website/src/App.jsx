@@ -3,84 +3,53 @@ import { useState } from 'react'
 
 import Header from './components/Header'
 import Navbar from './components/Navbar'
+import PortalSidebar from './components/PortalSidebar'
 import Home from './pages/Home'
-
-import MarketCompare from './MarketCompare'
-import Trades from './Trades'
-import Payments from './Payments'
-
 import './index.css'
 
-const marketPrices = [
-  { crop: 'Wheat', mandi: 'Kota Mandi', min: 2250, max: 2550, modal: 2450 },
-  { crop: 'Mustard', mandi: 'Jaipur Mandi', min: 5500, max: 6100, modal: 5900 },
-  { crop: 'Bajra', mandi: 'Ajmer Mandi', min: 1900, max: 2300, modal: 2200 },
-  { crop: 'Soybean', mandi: 'Kota Mandi', min: 4200, max: 4800, modal: 4500 },
-  { crop: 'Gram', mandi: 'Alwar Mandi', min: 4800, max: 5300, modal: 5100 },
-]
+const screens = {
+  prices: {
+    title: 'Market Prices',
+    description: 'Demo commodity prices from selected e-NAM markets.',
+  },
+  compare: {
+    title: 'Mandi Compare',
+    description: 'Member 2 will connect the net-return comparison tool here.',
+  },
+  trades: {
+    title: 'My Trades',
+    description: 'Your trade history and live order updates will appear here.',
+  },
+  payments: {
+    title: 'Payments',
+    description: 'Payment status and settlement details will appear here.',
+  },
+}
 
-function MarketPrices() {
-  const [search, setSearch] = useState('')
-
-  const filtered = marketPrices.filter(item =>
-    `${item.crop} ${item.mandi}`.toLowerCase().includes(search.toLowerCase())
-  )
+function PlaceholderScreen({ screen, onNavigate }) {
+  const content = screens[screen]
 
   return (
-    <main className="page-shell">
-      <section className="placeholder-page">
-        <h1>Market Prices</h1>
-        <p>Explore illustrative commodity prices across selected mandis.</p>
-
-        <input
-          type="search"
-          placeholder="Search commodity or mandi..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          style={{
-            padding: '12px',
-            width: '100%',
-            maxWidth: '400px',
-            margin: '20px 0',
-            border: '1px solid #dce5dc',
-            borderRadius: '8px',
-          }}
-        />
-
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '550px' }}>
-            <thead>
-              <tr>
-                {['Commodity', 'Mandi', 'Min Price', 'Max Price', 'Modal Price'].map(label => (
-                  <th key={label} style={{ textAlign: 'left', padding: '14px', background: '#edf4ed' }}>
-                    {label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((item, index) => (
-                <tr key={index}>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee' }}>{item.crop}</td>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee' }}>{item.mandi}</td>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee' }}>₹{item.min}</td>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee' }}>₹{item.max}</td>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee', fontWeight: 'bold' }}>₹{item.modal}</td>
-                </tr>
-              ))}
-              {filtered.length === 0 && (
-                <tr>
-                  <td colSpan="5" style={{ padding: '20px' }}>No matching market prices found.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+    <main className="page-shell placeholder-page">
+      <button className="back-link" type="button" onClick={() => onNavigate('home')}>
+        <span aria-hidden="true">←</span> Back to dashboard
+      </button>
+      <section className="placeholder-card">
+        <span className="eyebrow">e-NAM 2.0 workspace</span>
+        <h1>{content.title}</h1>
+        <p>{content.description}</p>
+        <div className="integration-note">
+          <span className="note-icon" aria-hidden="true">✦</span>
+          <div>
+            <strong>Integration point ready</strong>
+            <span>This screen is ready for the Member 2 component.</span>
+          </div>
         </div>
-
-        <p style={{ fontSize: '12px', color: '#777', marginTop: '20px' }}>
-          Illustrative demonstration data. Not live government market prices.
-        </p>
+        <button className="button button-primary" type="button" onClick={() => onNavigate('home')}>
+          Return to home
+        </button>
       </section>
+      <aside className="news-sidebar"><div className="news-heading">What&apos;s New</div><article><strong>e-NAM 2.0 farmer dashboard</strong><p>Compare estimated net returns before choosing a market.</p></article><article><strong>Important notice</strong><p>This prototype uses clearly marked demo data, not live government information.</p></article><button type="button" onClick={() => onNavigate('resources')}>View all resources »</button></aside>
     </main>
   )
 }
@@ -88,32 +57,25 @@ function MarketPrices() {
 function App() {
   const [activeScreen, setActiveScreen] = useState('home')
 
-  const navigate = screen => {
-    setActiveScreen(screen)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  const navigate = (screen) => setActiveScreen(screen)
 
   return (
     <>
       <Header />
-
-      <Navbar
-        activeScreen={activeScreen}
-        onNavigate={navigate}
-      />
-
-      {activeScreen === 'home' && (
+      <Navbar activeScreen={activeScreen} onNavigate={navigate} />
+      {activeScreen === 'home' ? (
         <Home onNavigate={navigate} />
+      ) : (
+        <PlaceholderScreen screen={activeScreen} onNavigate={navigate} />
       )}
-
-      {activeScreen === 'prices' && <MarketPrices />}
-
-      {activeScreen === 'compare' && <MarketCompare />}
-
-      {activeScreen === 'trades' && <Trades />}
-
-      {activeScreen === 'payments' && <Payments />}
-    </>
+      <footer className="site-footer">
+        <div>
+          <strong>e-NAM 2.0</strong>
+          <span>A farmer-first digital agriculture marketplace</span>
+        </div>
+        <span>Prototype • Demo data only</span>
+      </footer>
+    </div>
   )
 }
 

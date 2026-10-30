@@ -1,0 +1,21 @@
+import { useMemo, useState } from 'react'
+import PortalSidebar from '../components/PortalSidebar'
+
+const offers = [
+  { mandi: 'Lasalgaon Mandi', location: 'Nashik, Maharashtra', price: 2650, transport: 50, other: 20 },
+  { mandi: 'Pimpalgaon Mandi', location: 'Nashik, Maharashtra', price: 2580, transport: 80, other: 25 },
+  { mandi: 'Pune Market Yard', location: 'Pune, Maharashtra', price: 2760, transport: 250, other: 40 },
+]
+
+function MandiCompare({ onNavigate }) {
+  const [quantity, setQuantity] = useState(10)
+  const [commodity, setCommodity] = useState('Onion')
+  const [transport, setTransport] = useState({})
+  const [other, setOther] = useState({})
+  const results = useMemo(() => offers.map((offer) => ({ ...offer, transportCost: Number(transport[offer.mandi] ?? offer.transport), otherCost: Number(other[offer.mandi] ?? offer.other) })).map((offer) => ({ ...offer, net: offer.price - offer.transportCost - offer.otherCost })), [transport, other])
+  const best = results.reduce((winner, offer) => (offer.net > winner.net ? offer : winner), results[0])
+
+  return <main className="portal-layout page-shell"><PortalSidebar activeScreen="compare" onNavigate={onNavigate} /><section className="portal-main compare-main"><div className="breadcrumb"><button type="button" onClick={() => onNavigate('home')}>Home</button><span> / </span>Mandi Compare</div><div className="portal-titlebar"><div><span className="section-kicker">Decision support tool</span><h1>Mandi Compare</h1><p>Compare what you actually earn after transportation and other expenses.</p></div><span className="demo-label">Demo market data</span></div><section className="portal-panel calculator-inputs"><h2>Tell us about your produce</h2><div className="input-grid"><label>Commodity<select value={commodity} onChange={(event) => setCommodity(event.target.value)}><option>Onion</option><option>Wheat</option><option>Tomato</option><option>Cotton</option></select></label><label>Quantity (quintals)<input type="number" min="1" value={quantity} onChange={(event) => setQuantity(Math.max(1, Number(event.target.value)))} /></label></div><p className="form-note">Enter your expected expenses below to personalise each mandi&apos;s estimated net return.</p></section><section className="portal-panel comparison-panel"><div className="panel-heading"><div><h2>Available mandi offers</h2><p>{commodity} • {quantity} quintals</p></div><span className="best-label">Best net return highlighted</span></div><div className="table-scroll"><table className="portal-table compare-table"><thead><tr><th>Mandi</th><th>Quoted price / qtl</th><th>Transport cost</th><th>Other charges</th><th>Estimated net / qtl</th><th></th></tr></thead><tbody>{results.map((offer) => <tr className={offer.mandi === best.mandi ? 'best-row' : ''} key={offer.mandi}><td><strong>{offer.mandi}</strong><small>{offer.location}</small></td><td>₹{offer.price.toLocaleString('en-IN')}</td><td><label className="inline-input"><span>₹</span><input type="number" min="0" value={offer.transportCost} onChange={(event) => setTransport({ ...transport, [offer.mandi]: event.target.value })} /></label></td><td><label className="inline-input"><span>₹</span><input type="number" min="0" value={offer.otherCost} onChange={(event) => setOther({ ...other, [offer.mandi]: event.target.value })} /></label></td><td><strong>₹{offer.net.toLocaleString('en-IN')}</strong></td><td>{offer.mandi === best.mandi && <span className="recommended">Recommended</span>}</td></tr>)}</tbody></table></div><div className="comparison-summary"><strong>Estimated total for {quantity} quintals at {best.mandi}: ₹{(best.net * quantity * 100).toLocaleString('en-IN')}</strong><span>Net return = quoted price − transport − other charges</span></div></section><p className="data-disclaimer">This is an e-NAM 2.0 prototype using demo offers. It does not represent live bids or execute trades.</p></section><aside className="news-sidebar"><div className="news-heading">What&apos;s New</div><article><strong>Make a better market decision</strong><p>Quoted price alone may not be your highest earning option.</p></article><article><strong>How it works</strong><p>Compare prices, add expenses and choose the highest estimated net return.</p></article></aside></main>
+}
+
+export default MandiCompare
