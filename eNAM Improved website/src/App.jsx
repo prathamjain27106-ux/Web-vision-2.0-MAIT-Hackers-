@@ -3,7 +3,7 @@ import Header from './components/Header'
 import Navbar from './components/Navbar'
 import PortalSidebar from './components/PortalSidebar'
 import Home from './pages/Home'
-import MandiCompare from './pages/MandiCompare'
+import MarketCompare from './MarketCompare'
 import Login from './pages/Login'
 import Trades from './Trades'
 import Payments from './Payments'
@@ -67,7 +67,7 @@ function App() {
           <Header onNavigate={navigate} />
           <Navbar activeScreen={activeScreen} onNavigate={navigate} />
           {activeScreen === 'home' && <Home onNavigate={navigate} />}
-          {activeScreen === 'compare' && <MandiCompare onNavigate={navigate} />}
+          {activeScreen === 'compare' && <MarketCompare />}
           {activeScreen === 'trades' && <Trades />}
           {activeScreen === 'payments' && <Payments />}
           {pageDetails[activeScreen] && <PortalPage page={activeScreen} onNavigate={navigate} />}
