@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import MarketCompare from './MarketCompare'
 import Trades from './Trades'
 import Payments from './Payments'
+import Login from './Login'
 
 import './index.css'
 
@@ -58,6 +59,7 @@ function MarketPrices() {
                 ))}
               </tr>
             </thead>
+
             <tbody>
               {filtered.map((item, index) => (
                 <tr key={index}>
@@ -68,9 +70,12 @@ function MarketPrices() {
                   <td style={{ padding: '14px', borderBottom: '1px solid #eee', fontWeight: 'bold' }}>₹{item.modal}</td>
                 </tr>
               ))}
+
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan="5" style={{ padding: '20px' }}>No matching market prices found.</td>
+                  <td colSpan="5" style={{ padding: '20px' }}>
+                    No matching market prices found.
+                  </td>
                 </tr>
               )}
             </tbody>
@@ -87,15 +92,33 @@ function MarketPrices() {
 
 function App() {
   const [activeScreen, setActiveScreen] = useState('home')
+  const [showLogin, setShowLogin] = useState(false)
+  const [user, setUser] = useState(null)
 
   const navigate = screen => {
     setActiveScreen(screen)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const handleLogin = details => {
+    setUser({
+      name: 'Ramesh Kumar',
+      mobile: details.mobile,
+    })
+  }
+
+  const handleLogout = () => {
+    setUser(null)
+    setActiveScreen('home')
+  }
+
   return (
     <>
-      <Header />
+      <Header
+        user={user}
+        onLogin={() => setShowLogin(true)}
+        onLogout={handleLogout}
+      />
 
       <Navbar
         activeScreen={activeScreen}
@@ -113,6 +136,13 @@ function App() {
       {activeScreen === 'trades' && <Trades />}
 
       {activeScreen === 'payments' && <Payments />}
+
+      {showLogin && (
+        <Login
+          onClose={() => setShowLogin(false)}
+          onSuccess={handleLogin}
+        />
+      )}
     </>
   )
 }
