@@ -1,4 +1,4 @@
-function Header() {
+function Header({ onNavigate }) {
   return (
     <header className="official-header">
       <div className="official-header-inner">
@@ -8,7 +8,7 @@ function Header() {
         <div className="header-right">
           <strong>Call us 1800 270 0224</strong>
           <label><span>Languages</span><select defaultValue="English" aria-label="Select language"><option>English</option><option>हिन्दी</option><option>मराठी</option></select></label>
-          <div className="header-links"><button type="button">▣ Registration</button><button type="button">♙ Login Here</button><span className="color-swatches"><i></i><i></i><i></i><i></i></span></div>
+          <div className="header-links"><button type="button" onClick={() => onNavigate('register')}>▣ Registration</button><button type="button" onClick={() => onNavigate('login')}>♙ Login Here</button><span className="color-swatches" aria-label="Accessibility controls"><i tabIndex="0"></i><i tabIndex="0"></i><i tabIndex="0"></i><i tabIndex="0"></i></span></div>
         </div>
       </div>
     </header>

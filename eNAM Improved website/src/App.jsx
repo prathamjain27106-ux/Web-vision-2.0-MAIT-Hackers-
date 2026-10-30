@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import PortalSidebar from './components/PortalSidebar'
 import Home from './pages/Home'
 import MandiCompare from './pages/MandiCompare'
+import Login from './pages/Login'
 import './index.css'
 
 const pageDetails = {
@@ -58,15 +59,20 @@ function PortalPage({ page, onNavigate }) {
 function App() {
   const [activeScreen, setActiveScreen] = useState('home')
   const navigate = (screen) => setActiveScreen(screen)
+  const isAuthScreen = activeScreen === 'login' || activeScreen === 'register'
 
   return (
     <div className="app">
-      <Header />
-      <Navbar activeScreen={activeScreen} onNavigate={navigate} />
-      {activeScreen === 'home' && <Home onNavigate={navigate} />}
-      {activeScreen === 'compare' && <MandiCompare onNavigate={navigate} />}
-      {pageDetails[activeScreen] && <PortalPage page={activeScreen} onNavigate={navigate} />}
-      <footer className="site-footer"><div><strong>e-NAM 2.0</strong><span>Farmer-first digital agriculture marketplace</span></div><span>Prototype • Demo data only</span></footer>
+      {isAuthScreen ? <Login onNavigate={navigate} /> : (
+        <>
+          <Header onNavigate={navigate} />
+          <Navbar activeScreen={activeScreen} onNavigate={navigate} />
+          {activeScreen === 'home' && <Home onNavigate={navigate} />}
+          {activeScreen === 'compare' && <MandiCompare onNavigate={navigate} />}
+          {pageDetails[activeScreen] && <PortalPage page={activeScreen} onNavigate={navigate} />}
+          <footer className="site-footer"><div><strong>e-NAM 2.0</strong><span>Farmer-first digital agriculture marketplace</span></div><span>Prototype • Demo data only</span></footer>
+        </>
+      )}
     </div>
   )
 }
