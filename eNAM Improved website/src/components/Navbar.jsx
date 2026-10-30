@@ -1,33 +1,17 @@
-const navigationItems = [
-  { id: 'home', label: 'Home', icon: '⌂' },
-  { id: 'prices', label: 'Market Prices', icon: '▥' },
-  { id: 'compare', label: 'Mandi Compare', icon: '⇄', highlight: true },
-  { id: 'trades', label: 'My Trades', icon: '◷' },
-  { id: 'payments', label: 'Payments', icon: '₹' },
+const firstRow = [
+  ['home', 'Home'], ['mandis', 'e-NAM Mandis'], ['districts', 'Aspirational Districts'], ['stakeholders', 'Stakeholders'],
+  ['dashboard', 'Dashboard'], ['elearning', 'eLearning Videos'], ['resources', 'Resources'], ['events', 'Events Gallery'],
+  ['logistics', 'e-NAM-Logistics'], ['contact', 'Contact Us'], ['kisan', 'Kisan Rath'], ['fpo', 'FPO'], ['cooperative', 'Co-operative'],
+]
+
+const secondRow = [
+  ['weather', 'Weather Forecast'], ['blog', 'Blog'], ['pop', 'e-NAM Platform of Platforms'],
+  ['demand', 'Advance Demand/Supply'], ['seeds', 'National Seeds Corporation (NSC)'], ['enwr', 'eNWR Trade'],
 ]
 
 function Navbar({ activeScreen, onNavigate }) {
-  return (
-    <nav className="main-nav" aria-label="Main navigation">
-      <div className="nav-inner">
-        <div className="nav-links">
-          {navigationItems.map((item) => (
-            <button
-              className={`nav-link ${item.highlight ? 'nav-link-highlight' : ''} ${activeScreen === item.id ? 'active' : ''}`}
-              key={item.id}
-              type="button"
-              onClick={() => onNavigate(item.id)}
-              aria-current={activeScreen === item.id ? 'page' : undefined}
-            >
-              <span aria-hidden="true">{item.icon}</span>
-              {item.label}
-            </button>
-          ))}
-        </div>
-        <span className="demo-badge"><span aria-hidden="true">●</span> Demo environment</span>
-      </div>
-    </nav>
-  )
+  const renderRow = (items) => items.map(([id, label]) => <button className={`official-nav-link ${activeScreen === id ? 'active' : ''}`} type="button" key={id} onClick={() => onNavigate(id)}>{label}{['stakeholders', 'dashboard', 'elearning', 'resources', 'contact', 'demand'].includes(id) && <span aria-hidden="true">⌄</span>}</button>)
+  return <nav className="official-nav" aria-label="Main navigation"><div className="nav-inner"><button className="mobile-menu" type="button" aria-label="Open navigation">☰</button><div className="nav-row">{renderRow(firstRow)}</div><div className="nav-row">{renderRow(secondRow)}</div></div></nav>
 }
 
 export default Navbar
