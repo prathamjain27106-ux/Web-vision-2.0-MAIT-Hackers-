@@ -5,12 +5,12 @@ import PortalSidebar from './components/PortalSidebar'
 import Home from './pages/Home'
 import MandiCompare from './pages/MandiCompare'
 import Login from './pages/Login'
+import Trades from './Trades'
+import Payments from './Payments'
 import './index.css'
 
 const pageDetails = {
   prices: ['Market Prices', 'View indicative prices reported by connected mandis.'],
-  trades: ['My Trades', 'Track your bids, accepted offers and completed sales.'],
-  payments: ['Payments', 'Review settlement status and payment history.'],
   buyers: ['Buyer Information', 'Find buyer information and participation guidance.'],
   auctions: ['Auction Status', 'Follow auction activity and status updates.'],
   resources: ['Resources', 'Access farmer guides, policies and e-NAM information.'],
@@ -25,7 +25,6 @@ const marketRows = [
 
 function PortalPage({ page, onNavigate }) {
   const [title, description] = pageDetails[page]
-  const isPrices = page === 'prices'
 
   return (
     <main className="portal-layout page-shell">
@@ -36,7 +35,7 @@ function PortalPage({ page, onNavigate }) {
           <div><span className="section-kicker">e-NAM 2.0</span><h1>{title}</h1><p>{description}</p></div>
           <span className="demo-label">Demo data</span>
         </div>
-        {isPrices ? (
+        {page === 'prices' ? (
           <section className="portal-panel">
             <div className="panel-heading"><h2>Commodity price details</h2><label className="search-field"><span aria-hidden="true">⌕</span><input placeholder="Search commodity or market" /></label></div>
             <div className="table-scroll"><table className="portal-table"><thead><tr><th>Commodity</th><th>Market</th><th>Min price</th><th>Max price</th><th>Modal price</th><th>Trend</th></tr></thead><tbody>{marketRows.map((row) => <tr key={row[0]}>{row.map((cell, index) => <td className={index === 5 ? (cell.startsWith('+') ? 'trend-up' : 'trend-down') : ''} key={`${row[0]}-${index}`}>{index === 0 || index === 4 ? <strong>{cell}</strong> : cell}</td>)}</tr>)}</tbody></table></div>
@@ -69,6 +68,8 @@ function App() {
           <Navbar activeScreen={activeScreen} onNavigate={navigate} />
           {activeScreen === 'home' && <Home onNavigate={navigate} />}
           {activeScreen === 'compare' && <MandiCompare onNavigate={navigate} />}
+          {activeScreen === 'trades' && <Trades />}
+          {activeScreen === 'payments' && <Payments />}
           {pageDetails[activeScreen] && <PortalPage page={activeScreen} onNavigate={navigate} />}
           <footer className="site-footer"><div><strong>e-NAM 2.0</strong><span>Farmer-first digital agriculture marketplace</span></div><span>Prototype • Demo data only</span></footer>
         </>
