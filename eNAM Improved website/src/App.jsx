@@ -1,91 +1,205 @@
-
 import { useState } from 'react'
-
 import Header from './components/Header'
 import Navbar from './components/Navbar'
+import PortalSidebar from './components/PortalSidebar'
 import Home from './pages/Home'
-
 import MarketCompare from './MarketCompare'
 import Trades from './Trades'
 import Payments from './Payments'
 import Login from './Login'
-
 import './index.css'
 
-const marketPrices = [
-  { crop: 'Wheat', mandi: 'Kota Mandi', min: 2250, max: 2550, modal: 2450 },
-  { crop: 'Mustard', mandi: 'Jaipur Mandi', min: 5500, max: 6100, modal: 5900 },
-  { crop: 'Bajra', mandi: 'Ajmer Mandi', min: 1900, max: 2300, modal: 2200 },
-  { crop: 'Soybean', mandi: 'Kota Mandi', min: 4200, max: 4800, modal: 4500 },
-  { crop: 'Gram', mandi: 'Alwar Mandi', min: 4800, max: 5300, modal: 5100 },
+const pageDetails = {
+  prices: [
+    'Market Prices',
+    'View indicative prices reported by connected mandis.',
+  ],
+  trades: [
+    'My Trades',
+    'Track your bids, accepted offers and completed sales.',
+  ],
+  payments: [
+    'Payments',
+    'Review settlement status and payment history.',
+  ],
+  buyers: [
+    'Buyer Information',
+    'Find buyer information and participation guidance.',
+  ],
+  auctions: [
+    'Auction Status',
+    'Follow auction activity and status updates.',
+  ],
+  resources: [
+    'Resources',
+    'Access farmer guides, policies and e-NAM information.',
+  ],
+}
+
+const marketRows = [
+  ['Onion', 'Lasalgaon, Maharashtra', '₹1,850', '₹2,650', '₹2,280', '+4.2%'],
+  ['Wheat', 'Indore, Madhya Pradesh', '₹2,150', '₹2,450', '₹2,320', '+1.8%'],
+  ['Tomato', 'Kolar, Karnataka', '₹1,400', '₹2,300', '₹1,920', '-2.1%'],
+  ['Cotton', 'Rajkot, Gujarat', '₹6,800', '₹7,450', '₹7,120', '+3.5%'],
 ]
 
-function MarketPrices() {
-  const [search, setSearch] = useState('')
-
-  const filtered = marketPrices.filter(item =>
-    `${item.crop} ${item.mandi}`.toLowerCase().includes(search.toLowerCase())
-  )
+function PortalPage({ page, onNavigate }) {
+  const [title, description] = pageDetails[page]
+  const isPrices = page === 'prices'
 
   return (
-    <main className="page-shell">
-      <section className="placeholder-page">
-        <h1>Market Prices</h1>
-        <p>Explore illustrative commodity prices across selected mandis.</p>
+    <main className="portal-layout page-shell">
 
-        <input
-          type="search"
-          placeholder="Search commodity or mandi..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          style={{
-            padding: '12px',
-            width: '100%',
-            maxWidth: '400px',
-            margin: '20px 0',
-            border: '1px solid #dce5dc',
-            borderRadius: '8px',
-          }}
-        />
+      <PortalSidebar
+        activeScreen={page}
+        onNavigate={onNavigate}
+      />
 
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '550px' }}>
-            <thead>
-              <tr>
-                {['Commodity', 'Mandi', 'Min Price', 'Max Price', 'Modal Price'].map(label => (
-                  <th key={label} style={{ textAlign: 'left', padding: '14px', background: '#edf4ed' }}>
-                    {label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+      <section className="portal-main">
 
-            <tbody>
-              {filtered.map((item, index) => (
-                <tr key={index}>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee' }}>{item.crop}</td>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee' }}>{item.mandi}</td>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee' }}>₹{item.min}</td>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee' }}>₹{item.max}</td>
-                  <td style={{ padding: '14px', borderBottom: '1px solid #eee', fontWeight: 'bold' }}>₹{item.modal}</td>
-                </tr>
-              ))}
-
-              {filtered.length === 0 && (
-                <tr>
-                  <td colSpan="5" style={{ padding: '20px' }}>
-                    No matching market prices found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+        <div className="breadcrumb">
+          <button
+            type="button"
+            onClick={() => onNavigate('home')}
+          >
+            Home
+          </button>
+          <span> / </span>
+          {title}
         </div>
 
-        <p style={{ fontSize: '12px', color: '#777', marginTop: '20px' }}>
-          Illustrative demonstration data. Not live government market prices.
-        </p>
+        <div className="portal-titlebar">
+          <div>
+            <span className="section-kicker">e-NAM 2.0</span>
+            <h1>{title}</h1>
+            <p>{description}</p>
+          </div>
+
+          <span className="demo-label">Demo data</span>
+        </div>
+
+        {isPrices ? (
+          <section className="portal-panel">
+
+            <div className="panel-heading">
+              <h2>Commodity price details</h2>
+
+              <label className="search-field">
+                <span aria-hidden="true">⌕</span>
+                <input
+                  placeholder="Search commodity or market"
+                  aria-label="Search commodity or market"
+                  onChange={(event) => {
+                    // Search filtering can be connected here.
+                  }}
+                />
+              </label>
+            </div>
+
+            <div className="table-scroll">
+              <table className="portal-table">
+
+                <thead>
+                  <tr>
+                    <th>Commodity</th>
+                    <th>Market</th>
+                    <th>Min price</th>
+                    <th>Max price</th>
+                    <th>Modal price</th>
+                    <th>Trend</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {marketRows.map((row) => (
+                    <tr key={row[0]}>
+                      {row.map((cell, index) => (
+                        <td
+                          className={
+                            index === 5
+                              ? cell.startsWith('+')
+                                ? 'trend-up'
+                                : 'trend-down'
+                              : ''
+                          }
+                          key={`${row[0]}-${index}`}
+                        >
+                          {index === 0 || index === 4
+                            ? <strong>{cell}</strong>
+                            : cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+
+              </table>
+            </div>
+
+            <p className="data-disclaimer">
+              Prices shown are indicative demo data.
+              Actual prices may vary by quality, quantity
+              and market conditions.
+            </p>
+
+          </section>
+        ) : (
+          <section className="portal-panel empty-panel">
+
+            <div className="empty-icon" aria-hidden="true">
+              ▦
+            </div>
+
+            <h2>{title} workspace</h2>
+
+            <p>
+              This application area is ready for the connected
+              {` ${title.toLowerCase()} `}component.
+            </p>
+
+            <button
+              className="portal-button"
+              type="button"
+              onClick={() => onNavigate('home')}
+            >
+              Return to dashboard
+            </button>
+
+          </section>
+        )}
+
       </section>
+
+      <aside className="news-sidebar">
+
+        <div className="news-heading">
+          What's New
+        </div>
+
+        <article>
+          <strong>e-NAM 2.0 farmer dashboard</strong>
+          <p>
+            Compare estimated net returns before choosing a market.
+          </p>
+        </article>
+
+        <article>
+          <strong>Important notice</strong>
+          <p>
+            This prototype uses clearly marked demo data,
+            not live government information.
+          </p>
+        </article>
+
+        <button
+          type="button"
+          onClick={() => onNavigate('resources')}
+        >
+          View all resources »
+        </button>
+
+      </aside>
+
     </main>
   )
 }
@@ -95,16 +209,22 @@ function App() {
   const [showLogin, setShowLogin] = useState(false)
   const [user, setUser] = useState(null)
 
-  const navigate = screen => {
+  const navigate = (screen) => {
     setActiveScreen(screen)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
   }
 
-  const handleLogin = details => {
+  const handleLogin = (details) => {
     setUser({
-      name: 'Ramesh Kumar',
+      name: details.name || 'Ramesh Kumar',
       mobile: details.mobile,
+      email: details.email,
     })
+
+    setShowLogin(false)
   }
 
   const handleLogout = () => {
@@ -113,7 +233,8 @@ function App() {
   }
 
   return (
-    <>
+    <div className="app">
+
       <Header
         user={user}
         onLogin={() => setShowLogin(true)}
@@ -129,13 +250,43 @@ function App() {
         <Home onNavigate={navigate} />
       )}
 
-      {activeScreen === 'prices' && <MarketPrices />}
+      {activeScreen === 'compare' && (
+        <MarketCompare />
+      )}
 
-      {activeScreen === 'compare' && <MarketCompare />}
+      {activeScreen === 'prices' && (
+        <PortalPage
+          page="prices"
+          onNavigate={navigate}
+        />
+      )}
 
-      {activeScreen === 'trades' && <Trades />}
+      {activeScreen === 'trades' && (
+        <Trades />
+      )}
 
-      {activeScreen === 'payments' && <Payments />}
+      {activeScreen === 'payments' && (
+        <Payments />
+      )}
+
+      {pageDetails[activeScreen] &&
+        !['prices', 'trades', 'payments'].includes(activeScreen) && (
+          <PortalPage
+            page={activeScreen}
+            onNavigate={navigate}
+          />
+        )}
+
+      <footer className="site-footer">
+        <div>
+          <strong>e-NAM 2.0</strong>
+          <span>
+            Farmer-first digital agriculture marketplace
+          </span>
+        </div>
+
+        <span>Prototype • Demo data only</span>
+      </footer>
 
       {showLogin && (
         <Login
@@ -143,7 +294,8 @@ function App() {
           onSuccess={handleLogin}
         />
       )}
-    </>
+
+    </div>
   )
 }
 

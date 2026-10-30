@@ -1,33 +1,10 @@
-const navigationItems = [
-  { id: 'home', label: 'Home', icon: '⌂' },
-  { id: 'prices', label: 'Market Prices', icon: '▥' },
-  { id: 'compare', label: 'Mandi Compare', icon: '⇄', highlight: true },
-  { id: 'trades', label: 'My Trades', icon: '◷' },
-  { id: 'payments', label: 'Payments', icon: '₹' },
+const items = [
+  ['home', 'Home'], ['prices', 'Market Prices'], ['compare', 'Mandi Compare'], ['trades', 'My Trades'],
+  ['payments', 'Payments'], ['buyers', 'Buyer Information'], ['auctions', 'Auction Status'], ['resources', 'Resources'],
 ]
 
 function Navbar({ activeScreen, onNavigate }) {
-  return (
-    <nav className="main-nav" aria-label="Main navigation">
-      <div className="nav-inner">
-        <div className="nav-links">
-          {navigationItems.map((item) => (
-            <button
-              className={`nav-link ${item.highlight ? 'nav-link-highlight' : ''} ${activeScreen === item.id ? 'active' : ''}`}
-              key={item.id}
-              type="button"
-              onClick={() => onNavigate(item.id)}
-              aria-current={activeScreen === item.id ? 'page' : undefined}
-            >
-              <span aria-hidden="true">{item.icon}</span>
-              {item.label}
-            </button>
-          ))}
-        </div>
-        <span className="demo-badge"><span aria-hidden="true">●</span> Demo environment</span>
-      </div>
-    </nav>
-  )
+  return <nav className="official-nav" aria-label="Main navigation"><div className="nav-inner"><button className="mobile-menu" type="button" aria-label="Open navigation">☰</button>{items.map(([id, label]) => <button className={`official-nav-link ${activeScreen === id ? 'active' : ''}`} type="button" key={id} onClick={() => onNavigate(id)}>{label}{['buyers', 'auctions', 'resources'].includes(id) && <span aria-hidden="true">⌄</span>}</button>)}</div></nav>
 }
 
 export default Navbar

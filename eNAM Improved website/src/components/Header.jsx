@@ -19,7 +19,7 @@ function Header({ user, onLogin, onLogout }) {
 
         <div className="header-actions">
           <div className="government-label">
-            <span className="ashoka-wheel" aria-hidden="true">✺</span>
+            <span className="ashoka-wheel">✺</span>
             <span>Government of India</span>
           </div>
 
@@ -37,12 +37,10 @@ function Header({ user, onLogin, onLogout }) {
               className="profile-button"
               type="button"
               onClick={onLogout}
-              title="Click to logout"
             >
               <span className="avatar">
                 {user.name.charAt(0).toUpperCase()}
               </span>
-
               <span className="profile-copy">
                 <strong>{user.name}</strong>
                 <small>Logout</small>
